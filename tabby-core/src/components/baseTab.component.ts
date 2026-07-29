@@ -112,10 +112,11 @@ export abstract class BaseTabComponent extends BaseComponent {
     }
 
     setTitle (title: string): void {
-        this.title = title
-        if (!this.customTitle) {
-            this.titleChange.next(title)
+        if (this.customTitle) {
+            return
         }
+        this.title = title
+        this.titleChange.next(title)
     }
 
     /**

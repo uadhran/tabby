@@ -238,7 +238,8 @@ export class AppService {
             this._activeTab?.emitFocused()
             this._activeTab?.emitVisibility(true)
         })
-        this.hostWindow.setTitle(this._activeTab?.title)
+        const active = this._activeTab
+        this.hostWindow.setTitle(active ? active.customTitle || active.title : undefined)
     }
 
     getParentTab (tab: BaseTabComponent): SplitTabComponent|null {
@@ -327,6 +328,7 @@ export class AppService {
         const modal = this.ngbModal.open(RenameTabModalComponent)
         modal.componentInstance.value = tab.customTitle || tab.title
         modal.result.then(result => {
+            tab.customTitle = ''
             tab.setTitle(result)
             tab.customTitle = result
             this.emitTabsChanged()
